@@ -11,19 +11,28 @@ namespace API_Project.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly HttpClient _client;
 
         public HomeController(IHttpClientFactory httpClientFactory)
         {
-            _httpClientFactory = httpClientFactory;
+            _client = httpClientFactory.CreateClient();
         }
 
         public async Task<IActionResult> Index()
         {
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri("http://www.omdbapi.com/");
+            _client.BaseAddress = new Uri("http://www.omdbapi.com/");
 
-            var response = await client.GetAsync("?t=detective+pikachu");
+            var response = await _client.GetAsync("?apikey=4ce0252c&s=blood");
+            var content = await response.Content.ReadAsAsync<FoundMovies>();
+            return View(content);
+        }
+
+
+        public async Task<IActionResult> MovieDetails(string id)
+        {
+            _client.BaseAddress = new Uri("http://www.omdbapi.com/");
+
+            var response = await _client.GetAsync($"?apikey=4ce0252c&i={id}");
             var content = await response.Content.ReadAsAsync<Movie>();
             return View(content);
         }

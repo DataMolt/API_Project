@@ -1,4 +1,4 @@
-﻿@model  Movie
+﻿@model FoundMovies
 
 @{
     ViewData["Title"] = "Home Page";
@@ -6,7 +6,43 @@
 
 <div class="text-center">
     <h3 class="display-4">Welcome to our Movie App!</h3>
-    <div>
-
-    </div>
+    @*<div>
+        <p>@Model.Found</p>
+        <img src="@Model.Poster">
+    </div>*@
 </div>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Year
+        </th>
+        <th>
+            Type
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Search)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                <a asp-action="MovieDetails" asp-route-id="@item.imdbID">Details</a>
+            </td>
+        </tr>
+    }
+
+</table>
