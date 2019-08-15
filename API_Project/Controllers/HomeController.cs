@@ -31,7 +31,6 @@ namespace API_Project.Controllers
             return View(content);
         }
 
-
         public async Task<IActionResult> MovieDetails(string id)
         {
             _client.BaseAddress = new Uri("http://www.omdbapi.com/");
