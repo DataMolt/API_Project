@@ -15,13 +15,6 @@ namespace API_Project.Models
         public string Actors { get; set; }
         public string Plot { get; set; }
         public string Poster { get; set; }
-
     }
-
-    //public class Rating
-    //{
-    //    public string Source { get; set; }
-    //    public string Value { get; set; }
-    //}
 
 }
