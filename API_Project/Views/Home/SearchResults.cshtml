@@ -1,7 +1,7 @@
 ﻿@model FoundMovies
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "SearchResults";
 }
 
 <div class="text-center">
@@ -46,5 +46,6 @@
 }
 else
 {
-	 <p>Couldn't find anything!</p> 
+    <p>Couldn't find anything!</p>
+    <a asp-controller="Home" asp-action="Index">Try searching again?</a>
 }
