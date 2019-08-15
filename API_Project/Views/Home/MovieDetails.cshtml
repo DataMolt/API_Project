@@ -4,6 +4,17 @@
     ViewData["Title"] = "MovieDetails";
 }
 
-<h1>MovieDetails</h1>
-
-<p>@Model.Title</p>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <img src="@Model.Poster" alt="@Model.Title">
+        </div>
+        <div class="col">
+            <h2>@Model.Title - @Model.Year (@Model.Genre)</h2>
+            <p></p>
+            <p>@Model.Plot</p>
+            <p>Directors: @Model.Director</p>
+            <p>Stars: @Model.Actors</p>
+        </div>
+    </div>
+</div>
