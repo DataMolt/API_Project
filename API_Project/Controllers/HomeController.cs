@@ -18,11 +18,11 @@ namespace API_Project.Controllers
             _client = httpClientFactory.CreateClient();
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchQuery)
         {
             _client.BaseAddress = new Uri("http://www.omdbapi.com/");
 
-            var response = await _client.GetAsync("?apikey=4ce0252c&s=blood");
+            var response = await _client.GetAsync($"?apikey=4ce0252c&s={searchQuery}");
             var content = await response.Content.ReadAsAsync<FoundMovies>();
             return View(content);
         }

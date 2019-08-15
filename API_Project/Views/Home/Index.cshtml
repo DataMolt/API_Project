@@ -6,12 +6,14 @@
 
 <div class="text-center">
     <h3 class="display-4">Welcome to our Movie App!</h3>
-    @*<div>
-        <p>@Model.Found</p>
-        <img src="@Model.Poster">
-    </div>*@
 </div>
 
+<form asp-controller="Home" asp-action="SearchResults">
+    <p>
+        Search: <input type="text" name="searchQuery"/>
+        <input type="submit"/>
+    </p>
+</form>
 
 <table class="table">
     <tr>
