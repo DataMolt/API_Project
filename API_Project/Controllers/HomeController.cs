@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using API_Project.Models;
 using System.Net.Http;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace API_Project.Controllers
 {
@@ -39,6 +41,7 @@ namespace API_Project.Controllers
             var content = await response.Content.ReadAsAsync<Movie>();
             return View(content);
         }
+
 
         public IActionResult Privacy()
         {
