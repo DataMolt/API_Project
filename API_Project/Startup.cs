@@ -38,6 +38,7 @@ namespace API_Project
             services.AddSession(options =>
             {
                 options.Cookie.Name = ".GrandCircus.API_ProjectExample";
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
@@ -61,9 +62,11 @@ namespace API_Project
                 app.UseHsts();
             }
             
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

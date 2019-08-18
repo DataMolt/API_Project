@@ -8,16 +8,19 @@ using API_Project.Models;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-
+using API_Project.Data;
+using Microsoft.EntityFrameworkCore;
 namespace API_Project.Controllers
 {
     public class HomeController : Controller
     {
         private readonly HttpClient _client;
+        private readonly ApplicationDbContext _movieContext;
 
-        public HomeController(IHttpClientFactory httpClientFactory)
+        public HomeController(IHttpClientFactory httpClientFactory, ApplicationDbContext movieContext)
         {
             _client = httpClientFactory.CreateClient();
+            _movieContext = movieContext;
         }
 
         public IActionResult Index()
@@ -42,6 +45,44 @@ namespace API_Project.Controllers
             return View(content);
         }
 
+        public IActionResult FavoriteMovies()
+        {
+            return View(_movieContext.FavoriteMovies.ToList());
+        }
+
+        public async Task<IActionResult> AddFavorite(string id)
+        {
+            _client.BaseAddress = new Uri("http://www.omdbapi.com/");
+            var response = await _client.GetAsync($"?apikey=4ce0252c&i={id}");
+            var content = await response.Content.ReadAsAsync<Movie>();
+            _movieContext.FavoriteMovies.Add(content);
+            _movieContext.SaveChanges();
+            return RedirectToAction("SearchResults");
+        }
+
+        public async Task<IActionResult> RemoveFavorite(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var favoriteMovie = await _movieContext.FavoriteMovies.SingleOrDefaultAsync(m => m.MovieId == id);
+            if (favoriteMovie == null)
+            {
+                return NotFound();
+            }
+            return View(favoriteMovie);
+        }
+
+        [HttpPost, ActionName("RemoveFavorite")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveFavorite(int id)
+        {
+            var favoriteMovie = await _movieContext.FavoriteMovies.SingleOrDefaultAsync(m => m.MovieId == id);
+            _movieContext.FavoriteMovies.Remove(favoriteMovie);
+            await _movieContext.SaveChangesAsync();
+            return RedirectToAction(nameof(favoriteMovie));
+        }
 
         public IActionResult Privacy()
         {
